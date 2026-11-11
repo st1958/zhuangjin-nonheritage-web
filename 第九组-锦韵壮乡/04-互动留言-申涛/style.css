@@ -167,3 +167,23 @@ img{display:block}
 .form .tip{font-size:11px;color:var(--red);min-height:16px;margin-top:10px;letter-spacing:.06em}
 .note .txt{font-size:11.5px;color:var(--muted);line-height:1.85;margin-top:2px}
 .note time{font-size:10px;color:rgba(42,42,42,.4);margin-left:8px}
+
+
+/* ===== 留言页补充：字数统计 / 头像首字 / 删除 / 空状态 ===== */
+.countbar{text-align:right;font-size:10.5px;color:rgba(42,42,42,.45);letter-spacing:.08em;margin-top:-6px}
+.countbar .over{color:var(--red)}
+.form .btn{transition:background .18s,opacity .18s}
+.form .btn:hover{background:#96301f}
+.form .btn:disabled{opacity:.6;cursor:not-allowed}
+.note{position:relative}
+.note .ava{display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;background:rgba(27,52,96,.55);letter-spacing:0}
+.note .del{position:absolute;right:10px;top:10px;border:0;background:none;color:rgba(42,42,42,.38);
+  font:inherit;font-size:10.5px;letter-spacing:.08em;cursor:pointer;opacity:.35;transition:opacity .18s,color .18s}
+.note:hover .del,.note:focus-within .del{opacity:1}
+.note .del:hover{color:var(--red)}
+@media (max-width:767px){.note .del{opacity:1;right:8px;top:8px}}
+.empty{padding:26px 18px;text-align:center;font-size:11.5px;color:var(--muted);
+  background:var(--paper-2);border-left:2px solid var(--gold);letter-spacing:.08em}
+.form .tip.ok{color:var(--ink)}
+.msg-two{grid-template-columns:1fr 1.15fr}
+@media (max-width:767px){.msg-two{grid-template-columns:1fr}}

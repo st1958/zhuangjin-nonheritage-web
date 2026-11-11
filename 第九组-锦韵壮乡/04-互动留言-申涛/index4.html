@@ -24,23 +24,24 @@
     <h2 class="h2">互动留言</h2>
     <span class="lead">说说你与壮锦的一段记忆。</span>
   </div>
-  <div class="two" style="margin-top:26px;grid-template-columns:1fr 1.15fr">
+  <div class="two msg-two" style="margin-top:26px">
     <form class="form" id="msgForm" novalidate>
       <h3>写留言</h3>
       <div class="field"><input name="name" maxlength="16" placeholder="你的昵称"></div>
-      <div class="field area"><textarea name="text" maxlength="120" placeholder="写下你想说的话（80 字以内）"></textarea></div>
+      <div class="field area"><textarea name="text" placeholder="写下你想说的话（80 字以内）"></textarea></div>
+      <div class="countbar"><span id="msgCounter">0 / 80</span></div>
       <button class="btn" type="submit" style="width:100%;border:0;cursor:pointer;font-family:inherit">提交留言</button>
-      <div class="tip"></div>
+      <div class="tip" role="status" aria-live="polite"></div>
     </form>
-    <div class="wall">
-      <div class="note"><div class="ava"></div><div><b>来自南宁的访客</b><div class="txt">小时候奶奶用壮锦背带背我，那条带子现在还在柜子里。</div></div></div>
-      <div class="note"><div class="ava"></div><div><b>来自柳州的访客</b><div class="txt">第一次看清菱形纹是一格一格织出来的，比想象中难太多。</div></div></div>
-      <div class="note"><div class="ava"></div><div><b>来自桂林的访客</b><div class="txt">希望这样的展馆多一些，不然年轻人真的只在课本里见过壮锦。</div></div></div>
+    <div class="wall" id="msgWall">
+      <div class="note"><div class="ava">南</div><div><b>来自南宁的访客</b><div class="txt">小时候奶奶用壮锦背带背我，那条带子现在还在柜子里。</div></div></div>
+      <div class="note"><div class="ava">柳</div><div><b>来自柳州的访客</b><div class="txt">第一次看清菱形纹是一格一格织出来的，比想象中难太多。</div></div></div>
+      <div class="note"><div class="ava">桂</div><div><b>来自桂林的访客</b><div class="txt">希望这样的展馆多一些，不然年轻人真的只在课本里见过壮锦。</div></div></div>
     </div>
   </div>
 </section>
 <div class="stats">
-  <div><b id="msgCount">三条</b><span>已收录的访客留言</span></div>
+  <div><b id="msgCount">3 条</b><span>已收录的访客留言</span></div>
   <div><b>一次</b><span>提交即可，无需注册</span></div>
   <div><b>长期</b><span>留言会定期整理归档</span></div>
 </div>
