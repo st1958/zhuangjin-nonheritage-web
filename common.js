@@ -261,3 +261,22 @@
     ava.setAttribute('aria-hidden', 'true');
   });
 })();
+
+/* ===== 补充：输入框聚焦时收起悬浮按钮（安卓/iOS 键盘弹起） ===== */
+(function () {
+  function isField(el) { return el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'); }
+  document.addEventListener('focusin', function (e) {
+    if (isField(e.target)) document.body.classList.add('kb-open');
+  }, true);
+  document.addEventListener('focusout', function (e) {
+    if (isField(e.target)) document.body.classList.remove('kb-open');
+  }, true);
+})();
+
+/* ===== 补充：云端留言占位提示最多停留 1.5 秒，弱网下不一直挂着 ===== */
+(function () {
+  setTimeout(function () {
+    var h = document.querySelector('.wall-loading');
+    if (h && h.parentNode) h.parentNode.removeChild(h);
+  }, 1500);
+})();

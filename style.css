@@ -249,3 +249,6 @@ img{display:block}
 
 /* ===== 补充：进度条去掉过渡，滚动与键盘弹出时不再连续重绘 ===== */
 .prog{transition:none}
+
+/* ===== 补充：键盘弹起时收起右下角悬浮按钮，免得压住输入区与留言 ===== */
+body.kb-open .quick{opacity:0;pointer-events:none;transform:translateY(10px)}
