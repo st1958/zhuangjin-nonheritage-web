@@ -272,3 +272,8 @@ body.kb-open .quick{opacity:0;pointer-events:none;transform:translateY(10px)}
   .team-bar .sep{color:rgba(42,42,42,.2)}
   .team-bar .tb-hint{display:none}
 }
+
+/* ===== 补充：关于页手机端两列时，第五位跨满一行，避免右半边空着 ===== */
+@media (max-width:767px){
+  .members .mem:nth-child(5){grid-column:1 / -1}
+}
