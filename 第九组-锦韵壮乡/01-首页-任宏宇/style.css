@@ -28,3 +28,17 @@
   background:linear-gradient(180deg,rgba(16,30,62,.58) 0%,rgba(16,30,62,.72) 100%)}
 .hero .slide-bd{position:relative;z-index:2}
 .hero .slide-bd .h1{text-shadow:0 2px 18px rgba(10,20,44,.45)}
+
+/* 补充：四栏入口改为「方形参考图 + 编号 + 标题 + 箭头」，图不再满宽铺满 */
+.entries .card{display:flex;align-items:center;gap:14px;padding:15px 16px;position:relative}
+.entries .card .thumb{flex:0 0 78px;width:78px;height:78px;overflow:hidden;
+  border:1px solid rgba(27,52,96,.12)}
+.entries .card .thumb img{width:100%;height:100%;object-fit:cover}
+.entries .card .bd{flex:1;min-width:0;padding:0;display:block}
+.entries .card .no{display:block;font-style:normal;font-size:10px;letter-spacing:.22em;
+  color:rgba(27,52,96,.42);margin-bottom:6px}
+.entries .card h3{font-size:15px}
+.entries .card p{margin-top:8px;font-size:12px;line-height:1.7;color:rgba(27,52,96,.62)}
+.entries .card .go{font-style:normal;color:rgba(27,52,96,.35);font-size:16px;
+  transition:transform .2s,color .2s}
+.entries .card:hover .go{transform:translateX(4px);color:var(--red)}
