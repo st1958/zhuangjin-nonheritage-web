@@ -87,3 +87,15 @@
   var first = mem.querySelector('.mem');
   if (first) setTimeout(function () { first.click(); }, 350);
 })();
+
+/* ---------- 从首页团队条带 #m1～#m5 进来时，直接选中对应成员 ---------- */
+(function () {
+  var mem = document.querySelector('.members');
+  if (!mem) return;
+  var m = /^#m([1-5])$/.exec(location.hash || '');
+  if (!m) return;
+  var idx = parseInt(m[1], 10) - 1;
+  var cards = mem.querySelectorAll('.mem');
+  if (!cards[idx]) return;
+  setTimeout(function () { cards[idx].click(); }, 390);
+})();
