@@ -226,3 +226,9 @@
     step(e.key === 'ArrowLeft' ? -1 : 1);
   });
 })();
+
+/* ---------- 20 收藏提示的初始状态：默认分类下不显示空收藏提示 ---------- */
+(function () {
+  var hint = document.querySelector('.empty-hint');
+  if (hint) hint.hidden = true;
+})();
