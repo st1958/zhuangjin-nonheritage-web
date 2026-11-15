@@ -33,7 +33,7 @@ img{display:block}
 .foot{position:absolute;left:0;bottom:0;width:100%;padding:18px 56px;
   border-top:1px solid rgba(27,52,96,.15);font-size:11px;color:rgba(42,42,42,.45);letter-spacing:.16em}
 /* ---------- 1 首页 ---------- */
-.hero{height:462px;background:url(../assets/hero.jpg) center/cover;position:relative;display:flex;
+.hero{height:462px;background:url(../assets/hero_a.jpg) center/cover;position:relative;display:flex;
   flex-direction:column;justify-content:center;align-items:center;text-align:center;color:#fff}
 .hero::after{content:"";position:absolute;inset:0;background:rgba(20,36,74,.62)}
 .hero>*{position:relative;z-index:2}

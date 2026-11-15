@@ -7,9 +7,9 @@
   if (!hero || hero.querySelector('.slides')) return;
 
   var data = [
-    { bg: '../assets/hero.jpg' },
-    { bg: '../assets/p2.jpg', en: '万字纹　绵延不断', h1: '一纹一世界', p: '八款经典纹样，款款有名字，有来历。' },
-    { bg: '../assets/p4.jpg', en: '太阳纹　光与热', h1: '两千年，一匹布', p: '从宋代贡品到今天，织锦没有停下。' }
+    { bg: '../assets/hero_a.jpg' },
+    { bg: '../assets/hero_b.jpg', en: '竹笼机　一架木机', h1: '花本挂上去，纹就活了', p: '竹笼上的竹针就是花本，最简单的木机也能织出最复杂的纹。' },
+    { bg: '../assets/hero_c.jpg', en: '经与纬　一双手', h1: '一匹锦，上万次穿引', p: '穿经、提花、打纬，手上的分寸是用年数换来的。' }
   ];
 
   var i, wrap = document.createElement('div');

@@ -22,3 +22,9 @@
 .hero .dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.42);cursor:pointer;transition:background .2s,transform .2s}
 
 .hero .dots i.on{background:var(--red);transform:scale(1.3)}
+
+/* 补充：换图后保证标题可读，压暗一层并不遮掉画面细节 */
+.hero .slide::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(16,30,62,.58) 0%,rgba(16,30,62,.72) 100%)}
+.hero .slide-bd{position:relative;z-index:2}
+.hero .slide-bd .h1{text-shadow:0 2px 18px rgba(10,20,44,.45)}
