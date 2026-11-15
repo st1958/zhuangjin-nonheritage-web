@@ -77,3 +77,13 @@
     })(i);
   }
 })();
+
+/* ---------- 进页面先选中第一位成员，分工详情默认可见 ---------- */
+(function () {
+  var mem = document.querySelector('.members');
+  var box = document.querySelector('.mem-detail');
+  if (!mem || !box) return;
+  if (mem.querySelector('.mem.on')) return;
+  var first = mem.querySelector('.mem');
+  if (first) setTimeout(function () { first.click(); }, 350);
+})();

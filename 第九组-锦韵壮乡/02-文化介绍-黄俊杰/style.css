@@ -3,7 +3,7 @@
 
 .tl li{cursor:pointer;transition:background .2s}
 
-.tl li.on{background:rgba(27,52,96,.045)}
+.tl li.on{background:rgba(27,52,96,.075)}
 
 .tl li.on b{color:var(--red)}
 

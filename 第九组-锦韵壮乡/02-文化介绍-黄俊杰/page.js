@@ -85,3 +85,12 @@
     if (!box.hidden) box.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   });
 })();
+
+/* ---------- 进页面先把第一段时间轴展开，右手边不留空白 ---------- */
+(function () {
+  var tl = document.querySelector('.tl');
+  var box = document.querySelector('.tl-detail');
+  if (!tl || !box || box.getAttribute('data-i')) return;
+  var first = tl.querySelector('li');
+  if (first) setTimeout(function () { first.click(); }, 350);
+})();
