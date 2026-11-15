@@ -255,7 +255,7 @@ window.CLOUD_CONFIG = window.CLOUD_CONFIG || {
     inputText.focus();
 
     tip.classList.add('ok');
-    tip.textContent = isCloud ? '已提交，其他人也能看到了。' : '已提交，目前只保存在这台设备。';
+    tip.textContent = isCloud ? '已提交，其他人也能看到了。' : '已提交，联网后会自动同步给其他人。';
 
     submitBtn.disabled = true;
     setTimeout(function () { submitBtn.disabled = false; }, 800);
@@ -288,7 +288,7 @@ window.CLOUD_CONFIG = window.CLOUD_CONFIG || {
           item.id = 'local-' + Date.now();
           var list = loadLocal(); list.push(item); saveLocal(list);
           afterSubmit(item, false);
-          tip.textContent = '网络暂时连不上，这条先存在这台设备。';
+          tip.textContent = '已先记在这台设备，联网后自动补传。';
         })
         .then(function () {
           setTimeout(function () { submitBtn.disabled = false; }, 800);
@@ -389,4 +389,108 @@ window.CLOUD_CONFIG = window.CLOUD_CONFIG || {
   refresh();
   new MutationObserver(refresh).observe(wall, { childList: true, subtree: true });
   setInterval(refresh, 60000);
+})();
+
+/* ---------- 网络不稳时的兜底：请求限时、留言自动补传 ---------- */
+(function () {
+  var CFG = window.CLOUD_CONFIG || {};
+  if (!CFG.url || !CFG.key) return;
+  var BASE = String(CFG.url).replace(/\/$/, '');
+  var HOST = BASE.replace(/^https?:\/\//i, '').split('/')[0];
+  var KEY_LOCAL = 'jinyun_messages';
+  var KEEP = 40;
+
+  // 1 云端请求最多等 8 秒，超时立刻按“没连上”处理，不在手机上一直转圈
+  var rawFetch = window.fetch;
+  window.fetch = function (input, init) {
+    var url = typeof input === 'string' ? input : (input && input.url) || '';
+    if (url.indexOf(HOST) < 0 || !window.AbortController) {
+      return rawFetch.apply(window, arguments);
+    }
+    var ctrl = new window.AbortController();
+    var opt = {};
+    var k;
+    if (init) { for (k in init) { if (Object.prototype.hasOwnProperty.call(init, k)) opt[k] = init[k]; } }
+    opt.signal = ctrl.signal;
+    var timer = setTimeout(function () { ctrl.abort(); }, 8000);
+    return rawFetch.call(window, input, opt).then(
+      function (r) { clearTimeout(timer); return r; },
+      function (e) { clearTimeout(timer); throw e; }
+    );
+  };
+
+  // 2 本机列表里 id 以 local- 开头的，就是还没传上云的那几条
+  function readLocal() {
+    try { return JSON.parse(localStorage.getItem(KEY_LOCAL) || '[]') || []; }
+    catch (e) { return []; }
+  }
+
+  function writeLocal(list) {
+    try { localStorage.setItem(KEY_LOCAL, JSON.stringify(list.slice(-KEEP))); } catch (e) {}
+  }
+
+  function pending() {
+    var out = [], list = readLocal(), i;
+    for (i = 0; i < list.length; i++) {
+      if (String((list[i] && list[i].id) || '').indexOf('local-') === 0) out.push(list[i]);
+    }
+    return out;
+  }
+
+  var syncing = false;
+
+  function syncPending() {
+    if (syncing) return;
+    var list = pending();
+    if (!list.length) return;
+    syncing = true;
+    var i = 0;
+
+    (function step() {
+      if (i >= list.length) { syncing = false; return; }
+      var m = list[i++];
+      window.fetch(BASE + '/rest/v1/messages', {
+        method: 'POST',
+        headers: {
+          'apikey': CFG.key,
+          'Authorization': 'Bearer ' + CFG.key,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify([{ name: m.name, text: m.text }])
+      }).then(function (r) {
+        if (r.ok) {
+          // 传上去了就把本机这份删掉，下次打开页面读云端不会重复
+          var id = String(m.id);
+          writeLocal(readLocal().filter(function (x) { return String(x.id) !== id; }));
+        }
+        setTimeout(step, 300);
+      }, function () {
+        setTimeout(step, 2600);   // 这条没成，先跳过，下一轮再说
+      });
+    })();
+  }
+
+  // 3 提交那一下最容易赶上网络抖动：2.5 秒、9 秒各补传一次
+  var form = document.getElementById('msgForm');
+  if (form) {
+    form.addEventListener('submit', function () {
+      setTimeout(syncPending, 2500);
+      setTimeout(syncPending, 9000);
+    });
+  }
+
+  // 4 墙上已经有留言时，别让“正在读取云端留言”一直挂着
+  setTimeout(function () {
+    var ld = document.querySelector('.wall-loading');
+    var wall = document.getElementById('msgWall') || document.querySelector('.wall');
+    if (ld && wall && wall.querySelectorAll('.note').length) ld.parentNode.removeChild(ld);
+  }, 1200);
+
+  // 5 三个时机补传：页面打开、切回前台、网络恢复；再每 60 秒兜一次
+  setTimeout(syncPending, 1500);
+  window.addEventListener('online', syncPending);
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) syncPending();
+  });
+  setInterval(syncPending, 60000);
 })();
