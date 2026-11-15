@@ -33,7 +33,7 @@ img{display:block}
 .foot{position:absolute;left:0;bottom:0;width:100%;padding:18px 56px;
   border-top:1px solid rgba(27,52,96,.15);font-size:11px;color:rgba(42,42,42,.45);letter-spacing:.16em}
 /* ---------- 1 首页 ---------- */
-.hero{height:462px;background:url(./assets/hero.jpg) center/cover;position:relative;display:flex;
+.hero{height:462px;background:url(../assets/hero.jpg) center/cover;position:relative;display:flex;
   flex-direction:column;justify-content:center;align-items:center;text-align:center;color:#fff}
 .hero::after{content:"";position:absolute;inset:0;background:rgba(20,36,74,.62)}
 .hero>*{position:relative;z-index:2}
@@ -167,3 +167,44 @@ img{display:block}
 .form .tip{font-size:11px;color:var(--red);min-height:16px;margin-top:10px;letter-spacing:.06em}
 .note .txt{font-size:11.5px;color:var(--muted);line-height:1.85;margin-top:2px}
 .note time{font-size:10px;color:rgba(42,42,42,.4);margin-left:8px}
+
+/* ===== 公共交互：阅读进度条 / 卡片渐现 / 右下角快捷按钮 ===== */
+.prog{position:fixed;left:0;top:0;height:3px;width:0;background:var(--red);z-index:99;transition:width .12s linear}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+
+.reveal.in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+@media (max-width:767px){
+  .hero .pager{display:none}
+
+  .drawer{top:auto;bottom:0;height:78%;width:100%;max-width:none;transform:translateY(100%);border-radius:14px 14px 0 0}
+
+  .drawer.on{transform:none}
+
+}
+
+.mag { position: fixed; width: 150px; height: 150px; border-radius: 50%; border: 3px solid rgba(255,255,255,.92);
+  box-shadow: 0 12px 32px rgba(10,20,40,.3); background-repeat: no-repeat; pointer-events: none; display: none; z-index: 80; }
+
+.quick { position: fixed; right: 20px; bottom: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 70; }
+
+.qt { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(26,35,64,.18);
+  background: rgba(255,255,255,.94); color: #1c2b4a; font-size: 18px; text-decoration: none; cursor: pointer;
+  box-shadow: 0 6px 18px rgba(20,30,60,.12); display: flex; align-items: center; justify-content: center; }
+
+.qt:hover { background: #fff; transform: translateY(-1px); }
+
+@media (max-width: 767px) {
+  .quick { right: 14px; bottom: 14px; }
+
+  .qt { width: 40px; height: 40px; font-size: 16px; }
+
+  .mag { display: none !important; }
+
+}
+
+.empty-hint { margin: 26px 0 0; color: var(--muted, #6b7280); font-size: 15px; letter-spacing: .04em; }
+
