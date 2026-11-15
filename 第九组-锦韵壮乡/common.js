@@ -104,3 +104,72 @@
   }
   document.body.appendChild(box);
 })();
+
+/* —— 无障碍补充：键盘与读屏友好（第九组追加，不改动上面原有逻辑） —— */
+(function () {
+  var burger = document.querySelector('.burger'), links = document.querySelector('.nav .links');
+  if (burger && links) {
+    links.id = links.id || 'siteLinks';
+    burger.setAttribute('aria-controls', 'siteLinks');
+    burger.setAttribute('aria-expanded', links.classList.contains('open') ? 'true' : 'false');
+    new MutationObserver(function () {
+      burger.setAttribute('aria-expanded', links.classList.contains('open') ? 'true' : 'false');
+    }).observe(links, { attributes: true, attributeFilter: ['class'] });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && links.classList.contains('open')) {
+        links.classList.remove('open');
+        burger.focus();
+      }
+    });
+  }
+
+  function pressable(el) {
+    if (!el || el.getAttribute('role') === 'button') return;
+    el.setAttribute('role', 'button');
+    el.setAttribute('tabindex', '0');
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
+    });
+  }
+
+  function tick() {
+    var i;
+    var chips = document.querySelectorAll('.chip');
+    for (i = 0; i < chips.length; i++) {
+      pressable(chips[i]);
+      chips[i].setAttribute('aria-pressed', chips[i].classList.contains('on') ? 'true' : 'false');
+    }
+    var dots = document.querySelectorAll('.dots i');
+    for (i = 0; i < dots.length; i++) {
+      if (dots[i].getAttribute('role') === 'button') continue;
+      pressable(dots[i]);
+      dots[i].setAttribute('aria-label', '第 ' + (i + 1) + ' 张');
+    }
+    var prev = document.querySelector('.pager.prev'), next = document.querySelector('.pager.next');
+    if (prev && !prev.getAttribute('aria-label')) prev.setAttribute('aria-label', '上一张');
+    if (next && !next.getAttribute('aria-label')) next.setAttribute('aria-label', '下一张');
+    var favs = document.querySelectorAll('.fav');
+    for (i = 0; i < favs.length; i++) {
+      var name = favs[i].getAttribute('data-name');
+      if (!name) {
+        var fig = favs[i].closest('figure');
+        name = fig ? (fig.querySelector('b') || {}).textContent || '' : '';
+      }
+      favs[i].setAttribute('aria-label', (favs[i].classList.contains('on') ? '取消收藏' : '收藏') + '《' + String(name).trim() + '》');
+      favs[i].setAttribute('aria-pressed', favs[i].classList.contains('on') ? 'true' : 'false');
+    }
+    var mag = document.querySelector('.mag');
+    if (mag && !mag.getAttribute('aria-hidden')) mag.setAttribute('aria-hidden', 'true');
+  }
+
+  var timer = null;
+  function schedule() {
+    clearTimeout(timer);
+    timer = setTimeout(tick, 120);
+  }
+  document.addEventListener('DOMContentLoaded', tick);
+  window.addEventListener('load', function () { tick(); setTimeout(tick, 400); });
+  new MutationObserver(schedule).observe(document.body, {
+    subtree: true, childList: true, attributes: true, attributeFilter: ['class']
+  });
+})();

@@ -218,3 +218,9 @@ img{display:block}
   .foot { position: static !important; border-top: 1px solid #ccc; }
   .reveal { opacity: 1 !important; transform: none !important; }
 }
+
+/* ---------- 键盘焦点（补充，鼠标点击不出现） ---------- */
+:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:3px}
+.burger:focus-visible{outline:2px solid #fff;outline-offset:-4px}
+.chip:focus-visible,.dots i:focus-visible,.fav:focus-visible{border-radius:4px}
+@media print{:focus-visible{outline:none}}
