@@ -173,3 +173,91 @@
     subtree: true, childList: true, attributes: true, attributeFilter: ['class']
   });
 })();
+
+/* —— 留言页体验补充：点下就有反馈，不等云端（第九组追加） —— */
+(function () {
+  var form = document.getElementById('msgForm');
+  if (!form) return;
+  var wall = document.getElementById('msgWall') || document.querySelector('.wall');
+  if (!wall) return;
+  var nameEl = form.elements.name, textEl = form.elements.text;
+  var btn = form.querySelector('.btn');
+  var btnText = btn ? btn.textContent : '';
+  var pending = null, timer = null, baseCount = 0;
+
+  function len(s) { return Array.from(s).length; }
+
+  function done() {
+    if (pending && pending.parentNode) pending.parentNode.removeChild(pending);
+    pending = null;
+    clearTimeout(timer);
+    if (btn) { btn.disabled = false; btn.textContent = btnText; }
+  }
+
+  function showPending(name, text) {
+    done();
+    baseCount = wall.querySelectorAll('.note').length;
+    var el = document.createElement('div');
+    el.className = 'txnote';
+    var ava = document.createElement('div');
+    ava.className = 'ava';
+    ava.textContent = (name || '访').charAt(0);
+    var main = document.createElement('div');
+    var b = document.createElement('b');
+    b.textContent = name;
+    var tag = document.createElement('i');
+    tag.className = 'tx-tag';
+    tag.textContent = '正在发送';
+    b.appendChild(tag);
+    var txt = document.createElement('div');
+    txt.className = 'txt';
+    txt.textContent = text;
+    main.appendChild(b);
+    main.appendChild(txt);
+    el.appendChild(ava);
+    el.appendChild(main);
+    wall.insertBefore(el, wall.firstChild);
+    pending = el;
+    if (btn) { btn.disabled = true; btn.textContent = '正在发送…'; }
+    timer = setTimeout(done, 20000);
+  }
+
+  form.addEventListener('submit', function (e) {
+    var name = (nameEl.value || '').trim();
+    var text = (textEl.value || '').trim();
+    if (!name || len(name) > 16) return;
+    if (!text || len(text) > 80) return;
+    showPending(name, text);
+  }, true);
+
+  new MutationObserver(function () {
+    if (!pending) return;
+    if (wall.querySelectorAll('.note').length > baseCount) done();
+  }).observe(wall, { childList: true });
+
+  // 打开页面时先说明一句，别让留言墙空着不明所以
+  var hint = document.createElement('div');
+  hint.className = 'wall-loading';
+  hint.textContent = '正在读取云端留言…';
+  wall.insertBefore(hint, wall.firstChild);
+  var clearHint = function () {
+    if (hint.parentNode) hint.parentNode.removeChild(hint);
+  };
+  setTimeout(clearHint, 6000);
+  new MutationObserver(function () {
+    if (wall.querySelector('.note')) clearHint();
+  }).observe(wall, { childList: true });
+})();
+
+/* —— 关于页：成员卡首字头像（第九组追加） —— */
+(function () {
+  var mems = document.querySelectorAll('.members .mem');
+  Array.prototype.forEach.call(mems, function (m) {
+    var ava = m.querySelector('.ava');
+    var name = m.querySelector('b');
+    if (!ava || !name) return;
+    if (ava.textContent.trim()) return;
+    ava.textContent = name.textContent.trim().charAt(0);
+    ava.setAttribute('aria-hidden', 'true');
+  });
+})();

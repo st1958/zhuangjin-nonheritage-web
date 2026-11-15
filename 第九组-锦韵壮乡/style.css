@@ -224,3 +224,19 @@ img{display:block}
 .burger:focus-visible{outline:2px solid #fff;outline-offset:-4px}
 .chip:focus-visible,.dots i:focus-visible,.fav:focus-visible{border-radius:4px}
 @media print{:focus-visible{outline:none}}
+
+/* ---------- 留言提交即时反馈（补充） ---------- */
+.txnote{display:flex;gap:12px;background:rgba(255,255,255,.55);border:1px dashed rgba(27,52,96,.28);
+  padding:14px 16px;align-items:flex-start;opacity:.85}
+.txnote .ava{display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;
+  background:rgba(27,52,96,.45);border-radius:50%}
+.txnote b{font-size:13px;color:var(--ink);display:block}
+.txnote .txt{margin-top:4px;font-size:13px;line-height:1.7;color:var(--muted)}
+.tx-tag{font-style:normal;font-size:10.5px;color:var(--red);margin-left:8px;letter-spacing:.06em}
+.wall-loading{font-size:12px;color:var(--muted);padding:10px 2px 14px;letter-spacing:.04em}
+
+/* ---------- 关于页：首字头像（补充） ---------- */
+.mem .ava{display:flex;align-items:center;justify-content:center;width:46px;height:46px;flex:0 0 46px;
+  background:linear-gradient(135deg,#1B3460,#3B5A8F);color:#fff;border-radius:50%;
+  font-family:"Noto Serif CJK SC",serif;font-size:17px;letter-spacing:0;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.16)}
