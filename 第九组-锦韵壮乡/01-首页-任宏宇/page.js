@@ -77,9 +77,9 @@
   if (!hero || hero.querySelector('.slides')) return;
 
   var data = [
-    { bg: './assets/hero.jpg' },
-    { bg: './assets/p2.jpg', en: '万字纹　绵延不断', h1: '一纹一世界', p: '八款经典纹样，款款有名字，有来历。' },
-    { bg: './assets/p4.jpg', en: '太阳纹　光与热', h1: '两千年，一匹布', p: '从宋代贡品到今天，织锦没有停下。' }
+    { bg: '../assets/hero.jpg' },
+    { bg: '../assets/p2.jpg', en: '万字纹　绵延不断', h1: '一纹一世界', p: '八款经典纹样，款款有名字，有来历。' },
+    { bg: '../assets/p4.jpg', en: '太阳纹　光与热', h1: '两千年，一匹布', p: '从宋代贡品到今天，织锦没有停下。' }
   ];
 
   var i, wrap = document.createElement('div');
