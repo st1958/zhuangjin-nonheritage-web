@@ -135,3 +135,132 @@
     })(figs[i]);
   }
 })();
+
+/* ---------- 16 纹样放大镜：鼠标移到图上，浮出一块圆形放大区看丝线 ---------- */
+(function () {
+  var gal = document.querySelector('.gal');
+  if (!gal) return;
+  var mag = document.createElement('div');
+  mag.className = 'mag';
+  document.body.appendChild(mag);
+  var ZOOM = 2.2, SIZE = 150;
+
+  gal.addEventListener('mousemove', function (e) {
+    var t = e.target;
+    var img = t && t.closest ? t.closest('figure img') : null;
+    if (!img) { mag.style.display = 'none'; return; }
+    var r = img.getBoundingClientRect();
+    var x = e.clientX - r.left, y = e.clientY - r.top;
+    if (x < 0 || y < 0 || x > r.width || y > r.height) { mag.style.display = 'none'; return; }
+    mag.style.display = 'block';
+    mag.style.left = (e.clientX - SIZE / 2) + 'px';
+    mag.style.top = (e.clientY - SIZE / 2) + 'px';
+    mag.style.backgroundImage = 'url("' + (img.currentSrc || img.src) + '")';
+    mag.style.backgroundSize = (r.width * ZOOM) + 'px ' + (r.height * ZOOM) + 'px';
+    mag.style.backgroundPosition = (-(x * ZOOM - SIZE / 2)) + 'px ' + (-(y * ZOOM - SIZE / 2)) + 'px';
+  });
+  gal.addEventListener('mouseleave', function () { mag.style.display = 'none'; });
+  window.addEventListener('scroll', function () { mag.style.display = 'none'; });
+})();
+
+/* ---------- 17 纹样收藏：卡片右上角心形，筛选栏多一个“我的收藏” ---------- */
+(function () {
+  var KEY = 'jinyun_favs';
+  var gal = document.querySelector('.gal');
+  var chips = document.querySelector('.chips');
+  if (!gal || !chips) return;
+  var figs = Array.prototype.slice.call(gal.querySelectorAll('figure'));
+
+  function load() {
+    try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; }
+  }
+  function save(list) { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} }
+
+  var favs = load();
+  var cur = '全部';
+
+  function nameOf(f) {
+    var b = f.querySelector('figcaption b');
+    return b ? b.textContent : '';
+  }
+
+  figs.forEach(function (f) {
+    var name = nameOf(f);
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'fav';
+    btn.title = '收藏这款纹样';
+    if (favs.indexOf(name) >= 0) btn.className = 'fav on';
+    btn.setAttribute('aria-pressed', favs.indexOf(name) >= 0 ? 'true' : 'false');
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();                       // 不影响卡片本身的详情抽屉
+      var i = favs.indexOf(name);
+      if (i >= 0) favs.splice(i, 1); else favs.push(name);
+      var on = favs.indexOf(name) >= 0;
+      btn.className = on ? 'fav on' : 'fav';
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      save(favs);
+      if (cur === '我的收藏') apply('我的收藏');
+    });
+    f.appendChild(btn);
+  });
+
+  // 追加“我的收藏”筛选标签
+  var mine = document.createElement('span');
+  mine.className = 'chip';
+  mine.textContent = '我的收藏';
+  mine.setAttribute('data-cat', '我的收藏');
+  chips.appendChild(mine);
+
+  function apply(cat) {
+    cur = cat;
+    figs.forEach(function (f) {
+      var ok;
+      if (cat === '我的收藏') ok = favs.indexOf(nameOf(f)) >= 0;
+      else ok = cat === '全部' || (f.getAttribute('data-cat') || '').split(',').indexOf(cat) >= 0;
+      f.hidden = !ok;
+    });
+  }
+
+  mine.addEventListener('click', function () {
+    Array.prototype.forEach.call(chips.querySelectorAll('.chip'), function (c) {
+      c.classList.toggle('on', c === mine);
+    });
+    apply('我的收藏');
+  });
+  // 点回其他分类时，按常规分类筛选
+  chips.addEventListener('click', function (e) {
+    var c = e.target;
+    while (c && c !== chips && !(c.classList && c.classList.contains('chip'))) c = c.parentNode;
+    if (!c || c === chips || c === mine) return;
+    apply(c.getAttribute('data-cat'));
+  });
+})();
+
+/* ---------- 18 快捷按钮：右下角固定“返回顶部 / 返回首页” ---------- */
+(function () {
+  var box = document.createElement('div');
+  box.className = 'quick';
+
+  var up = document.createElement('button');
+  up.type = 'button';
+  up.className = 'qt';
+  up.title = '返回顶部';
+  up.textContent = '↑';
+  up.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  box.appendChild(up);
+
+  // 首页自己不放“返回首页”
+  var isHome = /01-首页|index1\.html/.test(location.pathname);
+  if (!isHome) {
+    var home = document.createElement('a');
+    home.className = 'qt';
+    home.title = '返回首页';
+    home.href = '../01-首页-任宏宇/index1.html';
+    home.textContent = '⌂';
+    box.appendChild(home);
+  }
+  document.body.appendChild(box);
+})();

@@ -226,3 +226,33 @@ img{display:block}
   .drawer{top:auto;bottom:0;height:78%;width:100%;max-width:none;transform:translateY(100%);border-radius:14px 14px 0 0}
   .drawer.on{transform:none}
 }
+
+/* ===== 追加：纹样收藏 / 放大镜 / 快捷按钮 ===== */
+.gal figure { position: relative; }
+.gal figure .fav { position: absolute; top: 8px; right: 8px; width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.55); background: rgba(20,28,50,.35); color: #fff; font-size: 15px;
+  padding: 0; cursor: pointer; z-index: 2; transition: background .2s, transform .2s; }
+.gal figure .fav::before { content: "\2661"; }
+.gal figure .fav.on::before { content: "\2665"; color: #ffd9a0; }
+.gal figure .fav.on { background: rgba(20,28,50,.6); }
+.gal figure .fav:hover { transform: scale(1.08); }
+
+.mag { position: fixed; width: 150px; height: 150px; border-radius: 50%; border: 3px solid rgba(255,255,255,.92);
+  box-shadow: 0 12px 32px rgba(10,20,40,.3); background-repeat: no-repeat; pointer-events: none; display: none; z-index: 80; }
+
+.quick { position: fixed; right: 20px; bottom: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 70; }
+.qt { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(26,35,64,.18);
+  background: rgba(255,255,255,.94); color: #1c2b4a; font-size: 18px; text-decoration: none; cursor: pointer;
+  box-shadow: 0 6px 18px rgba(20,30,60,.12); display: flex; align-items: center; justify-content: center; }
+.qt:hover { background: #fff; transform: translateY(-1px); }
+
+@media (max-width: 767px) {
+  .quick { right: 14px; bottom: 14px; }
+  .qt { width: 40px; height: 40px; font-size: 16px; }
+  .mag { display: none !important; }
+}
+
+/* 收藏按钮配色微调：白底、深色心形，在花纹图上也能看清 */
+.gal figure .fav { background: rgba(255,255,255,.94); border: 0; color: #55607a; box-shadow: 0 4px 12px rgba(20,30,60,.18); }
+.gal figure .fav.on { background: #fff; }
+.gal figure .fav.on::before { color: #c0392b; }

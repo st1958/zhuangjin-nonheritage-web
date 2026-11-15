@@ -148,3 +148,31 @@
   hero.addEventListener('focusout', play);
   play();
 })();
+
+/* ---------- 18 快捷按钮：右下角固定“返回顶部 / 返回首页” ---------- */
+(function () {
+  var box = document.createElement('div');
+  box.className = 'quick';
+
+  var up = document.createElement('button');
+  up.type = 'button';
+  up.className = 'qt';
+  up.title = '返回顶部';
+  up.textContent = '↑';
+  up.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  box.appendChild(up);
+
+  // 首页自己不放“返回首页”
+  var isHome = /01-首页|index1\.html/.test(location.pathname);
+  if (!isHome) {
+    var home = document.createElement('a');
+    home.className = 'qt';
+    home.title = '返回首页';
+    home.href = '../01-首页-任宏宇/index1.html';
+    home.textContent = '⌂';
+    box.appendChild(home);
+  }
+  document.body.appendChild(box);
+})();
