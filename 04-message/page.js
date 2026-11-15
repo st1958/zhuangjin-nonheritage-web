@@ -382,8 +382,9 @@ window.CLOUD_CONFIG = window.CLOUD_CONFIG || {
     for (var i = 0; i < ts.length; i++) {
       var raw = ts[i].getAttribute('title') || ts[i].textContent;
       var r = rel(raw);
-      if (r) ts[i].textContent = r;
-      ts[i].setAttribute('title', raw);
+      // 值没变就不写：写 textContent 会替换文本节点，本身又会触发下面的观察器，形成死循环
+      if (r && ts[i].textContent !== r) ts[i].textContent = r;
+      if (ts[i].getAttribute('title') !== raw) ts[i].setAttribute('title', raw);
     }
   }
   refresh();
