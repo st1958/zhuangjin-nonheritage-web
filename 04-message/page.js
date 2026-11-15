@@ -494,3 +494,39 @@ window.CLOUD_CONFIG = window.CLOUD_CONFIG || {
   });
   setInterval(syncPending, 60000);
 })();
+
+/* ===== 补充：输入时让输入框避开键盘、并减轻滚动重排（第九组追加） ===== */
+(function () {
+  var form = document.getElementById('msgForm');
+  if (!form) return;
+  var prog = null;
+
+  function isField(el) {
+    return el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA');
+  }
+
+  // 输入期间把进度条移出渲染树：它每次滚动都在改宽度，容易和键盘动画抢帧
+  document.addEventListener('focusin', function (e) {
+    if (!isField(e.target)) return;
+    var p = document.querySelector('.prog');
+    if (p) { prog = p; p.style.display = 'none'; }
+    // 键盘弹起有动画，等它落位再把输入框挪到可视区中间
+    setTimeout(function () {
+      try { e.target.scrollIntoView({ block: 'center' }); } catch (err) {}
+    }, 320);
+  }, true);
+
+  document.addEventListener('focusout', function (e) {
+    if (!isField(e.target)) return;
+    if (prog) { prog.style.display = ''; prog = null; }
+  }, true);
+
+  // 键盘把可视区压小后，再对一次位，保证输入框和提交按钮不被挡住
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', function () {
+      var a = document.activeElement;
+      if (!isField(a)) return;
+      try { a.scrollIntoView({ block: 'center' }); } catch (err) {}
+    });
+  }
+})();
