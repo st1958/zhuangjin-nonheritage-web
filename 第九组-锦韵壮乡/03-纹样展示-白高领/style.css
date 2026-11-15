@@ -259,3 +259,6 @@ img{display:block}
 
 /* 我的收藏为空时的提示文字 */
 .empty-hint { margin: 26px 0 0; color: var(--muted, #6b7280); font-size: 15px; letter-spacing: .04em; }
+
+/* 抽屉里的资料来源小字 */
+.drawer .src { margin: 14px 20px 0; font-size: 12px; line-height: 1.8; color: #8a93a3; }

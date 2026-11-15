@@ -256,3 +256,6 @@ img{display:block}
 .gal figure .fav { background: rgba(255,255,255,.94); border: 0; color: #55607a; box-shadow: 0 4px 12px rgba(20,30,60,.18); }
 .gal figure .fav.on { background: #fff; }
 .gal figure .fav.on::before { color: #c0392b; }
+
+/* 详情里的资料来源小字 */
+.detail .src { margin: 10px 0 0; font-size: 12px; line-height: 1.8; color: #8a93a3; }
