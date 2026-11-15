@@ -2,20 +2,16 @@
 25 大数据管理与应用 2 班　第九组
 
 一、目录说明
-　index.html　　　总入口，自动跳到首页
-　404.html　　　　站内找不到页面时的引导页
-　common.js　　　 公共交互脚本，五个页面共用（汉堡菜单、阅读进度条、数字带滚动、卡片渐现、返回顶部与返回首页、键盘与无障碍支持）
-　style.css　　　 公共样式，五个页面共用（基础版式、导航、标题、响应式、公共交互样式）
-　assets/　　　　 五页共用的图片素材（八款纹样图、主视觉织物照、网页图标）
-　01-首页-任宏宇/　　　 index1.html + page.js + style.css
-　02-文化介绍-黄俊杰/　 index2.html + page.js + style.css
-　03-纹样展示-白高领/　 index3.html + page.js + style.css
-　04-互动留言-申涛/　　 index4.html + page.js + style.css
-　05-关于联系-周家豪/　 index5.html + page.js + style.css
-
-公共的代码和样式统一放在根目录，各页用相对路径 ../common.js、../style.css 引用；
-每个页面文件夹里只放这一页自己的脚本与样式，脚本开头注明负责人姓名、学号与本页做了哪些交互。
-
+　index.html　　　　　　总入口，自动跳到首页
+　404.html　　　　　　　站内找不到页面时的引导页
+　common.js　　　　　　　公共交互脚本，五页共用：汉堡菜单、阅读进度条、数字带计数、渐现、返回顶部/首页
+　style.css　　　　　　　公共样式，五页共用：基础版式、导航、标题、响应式、打印规则
+　assets/　　　　　　　　五页共用的图片素材（八款纹样、主视觉织物照、入口小图、网页图标）
+　01-home/　　　　　　　首页　index1.html + page.js + style.css
+　02-culture/　　　　　　文化介绍　index2.html + page.js + style.css
+　03-patterns/　　　　　纹样展示　index3.html + page.js + style.css
+　04-message/　　　　　　互动留言　index4.html + page.js + style.css
+　05-about/　　　　　　　关于联系　index5.html + page.js + style.css
 二、各页自己的内容
 01 首页　　　轮播：三张幻灯片、左右箭头、圆点、6 秒自动切换，键盘 ← → 切换，手机左右滑
 02 文化介绍　时间轴点节点看详情、键盘 ↑ ↓ 翻上下一段、工序卡展开、详情卡

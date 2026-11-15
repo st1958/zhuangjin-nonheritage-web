@@ -98,7 +98,7 @@
     var home = document.createElement('a');
     home.className = 'qt';
     home.title = '返回首页';
-    home.href = '../01-首页-任宏宇/index1.html';
+    home.href = '../01-home/index1.html';
     home.textContent = '⌂';
     box.appendChild(home);
   }
