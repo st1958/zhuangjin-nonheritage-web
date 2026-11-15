@@ -254,21 +254,21 @@ img{display:block}
 body.kb-open .quick{opacity:0;pointer-events:none;transform:translateY(10px)}
 
 /* ===== 首页：导航下方的制作团队条，落地第一眼可见 ===== */
-.team-bar{height:34px;display:flex;align-items:center;gap:16px;padding:0 56px;
+.team-bar{height:34px;display:flex;align-items:center;gap:18px;padding:0 56px;
   background:var(--paper-2);border-bottom:1px solid rgba(27,52,96,.1);
-  font-size:11px;letter-spacing:.1em;color:rgba(42,42,42,.5)}
-.team-bar .tb-tag{display:inline-flex;align-items:center;gap:7px;color:var(--ink);letter-spacing:.14em}
+  font-size:11.5px;letter-spacing:.1em;color:rgba(42,42,42,.5)}
+.team-bar .tb-tag{display:inline-flex;align-items:center;gap:8px;color:rgba(42,42,42,.62);letter-spacing:.16em;font-size:11px}
 .team-bar .tb-tag::before{content:"";width:6px;height:6px;background:var(--red);display:block}
-.team-bar .tb-names{display:flex;align-items:center;gap:10px}
-.team-bar .tb-names a{color:rgba(27,52,96,.78);text-decoration:none;padding:2px 1px;transition:color .18s}
+.team-bar .tb-names{display:flex;align-items:center;gap:14px}
+.team-bar .tb-names a{color:rgba(27,52,96,.86);text-decoration:none;padding:3px 1px;transition:color .18s;letter-spacing:.06em}
 .team-bar .tb-names a:hover{color:var(--red)}
-.team-bar .sep{font-style:normal;color:rgba(42,42,42,.28)}
-.team-bar .tb-hint{margin-left:auto;font-size:10px;color:rgba(42,42,42,.42)}
+.team-bar .sep{font-style:normal;color:rgba(42,42,42,.22)}
+.team-bar .tb-hint{margin-left:auto;font-size:10px;color:rgba(42,42,42,.46);letter-spacing:.08em}
 @media (max-width:767px){
-  .team-bar{height:auto;padding:9px 20px;gap:6px;flex-wrap:nowrap;font-size:10px}
-  .team-bar .tb-tag{gap:5px;letter-spacing:.1em}
-  .team-bar .tb-names{gap:3px;flex-wrap:nowrap}
-  .team-bar .tb-names a{padding:2px 0}
-  .team-bar .sep{color:rgba(42,42,42,.22)}
+  .team-bar{height:40px;padding:0 14px;gap:10px;justify-content:center;flex-wrap:nowrap;font-size:11px}
+  .team-bar .tb-tag{gap:5px;letter-spacing:.1em;font-size:10.5px}
+  .team-bar .tb-names{gap:9px;flex-wrap:nowrap}
+  .team-bar .tb-names a{padding:3px 0}
+  .team-bar .sep{color:rgba(42,42,42,.2)}
   .team-bar .tb-hint{display:none}
 }
