@@ -347,3 +347,36 @@ window.CLOUD_CONFIG = window.CLOUD_CONFIG || {
     }
   });
 })();
+
+
+/* ---------- 15 长留言：超过三行先折起来 ---------- */
+(function () {
+  var wall = document.getElementById('msgWall') || document.querySelector('.wall');
+  if (!wall) return;
+  function tune() {
+    var notes = wall.querySelectorAll('.note');
+    for (var i = 0; i < notes.length; i++) {
+      var n = notes[i], t = n.querySelector('.txt');
+      if (!t || n.getAttribute('data-fold')) continue;
+      n.setAttribute('data-fold', '1');
+      if (t.textContent.replace(/\s/g, '').length < 46) continue;
+      t.className = 'txt clamp';
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'more';
+      b.textContent = '展开全文';
+      (function (txt, btn) {
+        btn.addEventListener('click', function () {
+          var clamped = txt.className.indexOf('clamp') >= 0;
+          txt.className = clamped ? 'txt' : 'txt clamp';
+          btn.textContent = clamped ? '收起' : '展开全文';
+        });
+      })(t, b);
+      t.parentNode.appendChild(b);
+    }
+  }
+  tune();
+  if (window.MutationObserver) {
+    new MutationObserver(function () { tune(); }).observe(wall, { childList: true });
+  }
+})();
