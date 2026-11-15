@@ -233,8 +233,10 @@ window.CLOUD_CONFIG = window.CLOUD_CONFIG || {
     el.appendChild(ava);
     el.appendChild(main);
 
-    // 有 id 的（云端或自己提交的）才显示删除按钮
-    if (item.id) {
+    // 页面上不放删除入口：留言墙对所有人开放，清理留言统一在 Supabase 后台做。
+    // 需要恢复删除按钮时，把 ALLOW_DELETE 改成 true 即可。
+    var ALLOW_DELETE = false;
+    if (ALLOW_DELETE && item.id) {
       var del = document.createElement('button');
       del.type = 'button';
       del.className = 'del';
