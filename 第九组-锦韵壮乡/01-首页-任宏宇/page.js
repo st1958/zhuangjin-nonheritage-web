@@ -78,3 +78,29 @@
   hero.addEventListener('focusout', play);
   play();
 })();
+
+/* ---------- 19 轮播的键盘与手势：← → 切换，手机左右滑 ---------- */
+(function () {
+  var hero = document.querySelector('.hero');
+  if (!hero || !hero.querySelector('.slides')) return;
+  var prev = hero.querySelector('.pager.prev'), next = hero.querySelector('.pager.next');
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    var tag = (document.activeElement && document.activeElement.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    if (e.key === 'ArrowLeft' && prev) prev.click();
+    if (e.key === 'ArrowRight' && next) next.click();
+  });
+
+  var sx = 0, sy = 0;
+  hero.addEventListener('touchstart', function (e) {
+    var t = e.touches[0]; sx = t.clientX; sy = t.clientY;
+  }, { passive: true });
+  hero.addEventListener('touchend', function (e) {
+    var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+    if (Math.abs(dx) < 40 || Math.abs(dy) > Math.abs(dx)) return;
+    if (dx > 0 && prev) prev.click();
+    if (dx < 0 && next) next.click();
+  }, { passive: true });
+})();

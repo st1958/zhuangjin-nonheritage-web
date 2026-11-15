@@ -208,3 +208,13 @@ img{display:block}
 
 .empty-hint { margin: 26px 0 0; color: var(--muted, #6b7280); font-size: 15px; letter-spacing: .04em; }
 
+
+/* ===== 打印时收掉悬浮控件，页面排得干净些 ===== */
+@media print {
+  .quick, .prog, .mag, .mask, .drawer, .pager, .dots { display: none !important; }
+  .nav { background: #fff !important; color: #1B3460 !important; }
+  .nav .links a { color: #1B3460 !important; }
+  .hero { height: 300px !important; }
+  .foot { position: static !important; border-top: 1px solid #ccc; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}

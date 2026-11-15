@@ -181,3 +181,48 @@
     apply(c.getAttribute('data-cat'));
   });
 })();
+
+/* ---------- 19 抽屉里翻页：上一款 / 下一款，键盘 ← → 也行 ---------- */
+(function () {
+  var gal = document.querySelector('.gal'), dr = document.querySelector('.drawer');
+  if (!gal || !dr) return;
+  var figs = gal.querySelectorAll('figure');
+
+  function names() {
+    return Array.prototype.map.call(figs, function (f) {
+      var b = f.querySelector('b'); return b ? b.textContent.trim() : '';
+    });
+  }
+  function curName() {
+    var b = dr.querySelector('.hd b'); return b ? b.textContent.trim() : '';
+  }
+  function step(d) {
+    var all = names(), idx = all.indexOf(curName());
+    if (idx < 0) return;
+    figs[(idx + d + all.length) % all.length].click();
+  }
+
+  // 抽屉每次打开都会重建内容，用观察器把翻页条补回去
+  function addBar() {
+    if (dr.querySelector('.dnav') || dr.querySelector('.hd') === null) return;
+    var bar = document.createElement('div');
+    bar.className = 'dnav';
+    var p = document.createElement('button');
+    p.type = 'button'; p.className = 'dprev'; p.setAttribute('aria-label', '上一款');
+    p.textContent = '‹ 上一款';
+    var n = document.createElement('button');
+    n.type = 'button'; n.className = 'dnext'; n.setAttribute('aria-label', '下一款');
+    n.textContent = '下一款 ›';
+    p.addEventListener('click', function () { step(-1); });
+    n.addEventListener('click', function () { step(1); });
+    bar.appendChild(p); bar.appendChild(n);
+    dr.appendChild(bar);
+  }
+  new MutationObserver(addBar).observe(dr, { childList: true });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    if (!dr.className || dr.className.indexOf('on') < 0) return;
+    step(e.key === 'ArrowLeft' ? -1 : 1);
+  });
+})();

@@ -360,3 +360,33 @@ window.CLOUD_CONFIG = window.CLOUD_CONFIG || {
     new MutationObserver(function () { tune(); }).observe(wall, { childList: true });
   }
 })();
+
+/* ---------- 19 留言时间改成“刚刚 / 几分钟前”，一分钟刷一次 ---------- */
+(function () {
+  var wall = document.querySelector('#msgWall');
+  if (!wall) return;
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function rel(raw) {
+    var d = new Date(raw);
+    if (isNaN(d.getTime())) return null;
+    var s = (Date.now() - d.getTime()) / 1000;
+    if (s < 60) return '刚刚';
+    if (s < 3600) return Math.floor(s / 60) + ' 分钟前';
+    if (s < 86400) return Math.floor(s / 3600) + ' 小时前';
+    if (s < 604800) return Math.floor(s / 86400) + ' 天前';
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  }
+  function refresh() {
+    var ts = wall.querySelectorAll('time');
+    for (var i = 0; i < ts.length; i++) {
+      var raw = ts[i].getAttribute('title') || ts[i].textContent;
+      var r = rel(raw);
+      if (r) ts[i].textContent = r;
+      ts[i].setAttribute('title', raw);
+    }
+  }
+  refresh();
+  new MutationObserver(refresh).observe(wall, { childList: true, subtree: true });
+  setInterval(refresh, 60000);
+})();

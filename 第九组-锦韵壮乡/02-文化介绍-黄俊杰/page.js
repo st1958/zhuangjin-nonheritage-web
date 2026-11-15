@@ -62,3 +62,26 @@
     })(i);
   }
 })();
+
+/* ---------- 13 时间轴的键盘操作：↑ ↓ 翻上下一段，详情自动滚到眼前 ---------- */
+(function () {
+  var tl = document.querySelector('.tl'), box = document.querySelector('.tl-detail');
+  if (!tl || !box) return;
+  var lis = tl.querySelectorAll('li');
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+    var tag = (document.activeElement && document.activeElement.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    var cur = parseInt(box.getAttribute('data-i'), 10);
+    var n;
+    if (isNaN(cur)) {
+      n = e.key === 'ArrowDown' ? 0 : lis.length - 1;
+    } else {
+      n = (cur + (e.key === 'ArrowDown' ? 1 : -1) + lis.length) % lis.length;
+      if (n === cur) return;
+    }
+    lis[n].click();
+    if (!box.hidden) box.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  });
+})();
