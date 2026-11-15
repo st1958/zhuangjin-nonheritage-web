@@ -256,3 +256,6 @@ img{display:block}
 .gal figure .fav { background: rgba(255,255,255,.94); border: 0; color: #55607a; box-shadow: 0 4px 12px rgba(20,30,60,.18); }
 .gal figure .fav.on { background: #fff; }
 .gal figure .fav.on::before { color: #c0392b; }
+
+/* 我的收藏为空时的提示文字 */
+.empty-hint { margin: 26px 0 0; color: var(--muted, #6b7280); font-size: 15px; letter-spacing: .04em; }

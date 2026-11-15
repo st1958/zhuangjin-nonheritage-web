@@ -190,6 +190,7 @@
     btn.type = 'button';
     btn.className = 'fav';
     btn.title = '收藏这款纹样';
+    btn.setAttribute('aria-label', '收藏「' + name + '」');
     if (favs.indexOf(name) >= 0) btn.className = 'fav on';
     btn.setAttribute('aria-pressed', favs.indexOf(name) >= 0 ? 'true' : 'false');
     btn.addEventListener('click', function (e) {
@@ -199,6 +200,7 @@
       var on = favs.indexOf(name) >= 0;
       btn.className = on ? 'fav on' : 'fav';
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.setAttribute('aria-label', (on ? '取消收藏「' : '收藏「') + name + '」');
       save(favs);
       if (cur === '我的收藏') apply('我的收藏');
     });
@@ -212,14 +214,23 @@
   mine.setAttribute('data-cat', '我的收藏');
   chips.appendChild(mine);
 
+  // 收藏为空时的提示
+  var hint = document.createElement('p');
+  hint.className = 'empty-hint';
+  hint.textContent = '还没有收藏，把喜欢的纹样右上角的心点亮一下。';
+  gal.parentNode.insertBefore(hint, gal.nextSibling);
+
   function apply(cat) {
     cur = cat;
+    var shown = 0;
     figs.forEach(function (f) {
       var ok;
       if (cat === '我的收藏') ok = favs.indexOf(nameOf(f)) >= 0;
       else ok = cat === '全部' || (f.getAttribute('data-cat') || '').split(',').indexOf(cat) >= 0;
       f.hidden = !ok;
+      if (ok) shown++;
     });
+    hint.hidden = !(cat === '我的收藏' && shown === 0);
   }
 
   mine.addEventListener('click', function () {
